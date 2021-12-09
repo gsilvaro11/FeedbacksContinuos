@@ -1,6 +1,6 @@
 package com.dbc.feedbackscontinuos.security;
 
-import com.dbc.trabalho_modulo_3.Restauranteapi.entity.UsuarioEntity;
+import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -30,20 +30,20 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String generateToken(UsuarioEntity usuario) {
+    public String generateToken(FuncionarioEntity funcionario) {
         Date generateDate = new Date();
 
         //tempoExpiração
         Date exp = new Date(generateDate.getTime() + Long.parseLong(expiration));
 
-        List<String> permissoes = usuario.getAuthorities().stream()
-                .map(grantedAuthority -> grantedAuthority.getAuthority())
-                .collect(Collectors.toList());
+//        List<String> permissoes = usuario.getAuthorities().stream()
+//                .map(grantedAuthority -> grantedAuthority.getAuthority())
+//                .collect(Collectors.toList());
 
         String jwtToken = Jwts.builder()
                 .setIssuer("pessoa-api")
-                .claim(CLAIN_PERMISSOES, permissoes)
-                .setSubject(usuario.getIdUsuario().toString())
+//                .claim(CLAIN_PERMISSOES, permissoes)
+                .setSubject(funcionario.getIdFuncionario().toString())
                 .setIssuedAt(generateDate)
                 .setExpiration(exp)
                 .signWith(SignatureAlgorithm.HS256, secret)
