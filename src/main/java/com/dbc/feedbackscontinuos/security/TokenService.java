@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,13 +37,12 @@ public class TokenService {
         //tempoExpiração
         Date exp = new Date(generateDate.getTime() + Long.parseLong(expiration));
 
-//        List<String> permissoes = funcionario.getAuthorities().stream()
-//                .map(grantedAuthority -> grantedAuthority.getAuthority())
-//                .collect(Collectors.toList());
+        List<String> permissoes = new ArrayList<>();
+        permissoes.add("ROLE_USUARIO");
 
         String jwtToken = Jwts.builder()
                 .setIssuer("feedbackscontinuos")
-//                .claim(CLAIN_PERMISSOES, permissoes)
+                .claim(CLAIN_PERMISSOES, permissoes)
                 .setSubject(funcionario.getIdFuncionario().toString())
                 .setIssuedAt(generateDate)
                 .setExpiration(exp)
