@@ -6,7 +6,6 @@ import com.dbc.feedbackscontinuos.dto.FuncionarioDTO;
 import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
 import com.dbc.feedbackscontinuos.repository.FuncionarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
