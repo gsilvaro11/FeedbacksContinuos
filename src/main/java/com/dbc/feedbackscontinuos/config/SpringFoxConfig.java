@@ -33,12 +33,12 @@ public class SpringFoxConfig {
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("Biblioteca DBC")
+                        .title("Feedbacks API")
                         .description("App com SpringBoot")
                         .version("1.0.0")
                         .license("Apache License Version 2.0")
                         .licenseUrl("https://www.apache.org/license/LICENSE-2.0")
-                        .contact(new Contact(null, null, null))
+                        .contact(new Contact("Guilherme Silva", null, null))
                         .build()
                 );
     }

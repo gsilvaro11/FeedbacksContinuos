@@ -66,7 +66,7 @@ public class TokenService {
             List<String> permissoes = (List<String>) claims.get(CLAIN_PERMISSOES);
 
             List<GrantedAuthority> grantedAuthorities = permissoes.stream()
-                    .map(permissao -> new SimpleGrantedAuthority(permissao))
+                    .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
 
             if (user != null) {

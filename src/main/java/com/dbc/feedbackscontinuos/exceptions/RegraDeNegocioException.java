@@ -1,4 +1,4 @@
-package com.dbc.feedbackscontinuos.config.exceptions;
+package com.dbc.feedbackscontinuos.exceptions;
 
 public class RegraDeNegocioException extends Exception {
     public RegraDeNegocioException(String mensagem){

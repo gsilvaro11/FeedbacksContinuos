@@ -1,6 +1,6 @@
 package com.dbc.feedbackscontinuos.service;
 
-import com.dbc.feedbackscontinuos.config.exceptions.RegraDeNegocioException;
+import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.dto.FuncionarioCreateDTO;
 import com.dbc.feedbackscontinuos.dto.FuncionarioDTO;
 import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;

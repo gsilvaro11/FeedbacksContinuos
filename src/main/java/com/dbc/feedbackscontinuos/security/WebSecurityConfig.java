@@ -30,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable().and().cors().and()
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/funcionario/login").permitAll()
                 .antMatchers("/funcionario/cadastro").permitAll()
                 .antMatchers("/**").hasRole("USUARIO")

@@ -1,4 +1,4 @@
-package com.dbc.feedbackscontinuos.config.exceptions;
+package com.dbc.feedbackscontinuos.exceptions;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
