@@ -28,7 +28,7 @@ public class SpringFoxConfig {
                 .securityContexts(Collections.singletonList(securityContext()))
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.dbc.biblioteca"))
+                .apis(RequestHandlerSelectors.basePackage("com.dbc.feedbackscontinuos"))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false)
