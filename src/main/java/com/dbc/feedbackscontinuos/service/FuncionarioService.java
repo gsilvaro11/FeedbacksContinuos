@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class FuncionarioService {
@@ -21,5 +23,9 @@ public class FuncionarioService {
         entity.setSenha(new BCryptPasswordEncoder().encode(funcionarioCreateDTO.getSenha()));
         funcionarioRepository.save(entity);
         return objectMapper.convertValue(entity, FuncionarioDTO.class);
+    }
+
+    public Optional<FuncionarioEntity> findByEmail(String email) {
+        return funcionarioRepository.findByEmail(email);
     }
 }

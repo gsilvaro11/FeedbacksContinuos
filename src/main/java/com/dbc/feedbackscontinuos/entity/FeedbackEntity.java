@@ -1,17 +1,13 @@
 package com.dbc.feedbackscontinuos.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity(name = "feedback")
 public class FeedbackEntity {
 
@@ -23,12 +19,10 @@ public class FeedbackEntity {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_funcionario", referencedColumnName = "id_funcionario")
-    private FuncionarioEntity idFuncionario;
+    private FuncionarioEntity funcionarioEntity;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_funcionario_destino", referencedColumnName = "id_funcionario")
-    private FuncionarioEntity idFuncionarioDestino;
+    @Column(name = "id_funcionario_destino")
+    private Integer idFuncionarioDestino;
 
     @Column(name = "conteudo")
     private String conteudo;

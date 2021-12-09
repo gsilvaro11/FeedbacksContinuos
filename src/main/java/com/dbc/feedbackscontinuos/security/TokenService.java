@@ -36,12 +36,12 @@ public class TokenService {
         //tempoExpiração
         Date exp = new Date(generateDate.getTime() + Long.parseLong(expiration));
 
-//        List<String> permissoes = usuario.getAuthorities().stream()
+//        List<String> permissoes = funcionario.getAuthorities().stream()
 //                .map(grantedAuthority -> grantedAuthority.getAuthority())
 //                .collect(Collectors.toList());
 
         String jwtToken = Jwts.builder()
-                .setIssuer("pessoa-api")
+                .setIssuer("feedbackscontinuos")
 //                .claim(CLAIN_PERMISSOES, permissoes)
                 .setSubject(funcionario.getIdFuncionario().toString())
                 .setIssuedAt(generateDate)
