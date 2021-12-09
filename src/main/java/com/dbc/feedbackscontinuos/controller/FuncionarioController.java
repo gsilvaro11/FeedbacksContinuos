@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("login-cadastro")
+@RequestMapping("/funcionario")
 @Validated
 @RequiredArgsConstructor
 public class FuncionarioController {
