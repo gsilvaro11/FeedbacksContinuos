@@ -35,7 +35,7 @@ public class FeedbackEntity {
     private Boolean visivel;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "FeedbackEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "feedbackEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<TagsEntity> tags;
 
 }
