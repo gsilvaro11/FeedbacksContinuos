@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,18 +23,11 @@ public class FeedbackService {
     private final ObjectMapper objectMapper;
 
     public List<FeedbacksDTO> list(Integer idFuncionario) throws RegraDeNegocioException {
-        funcionarioRepository.findById(idFuncionario).orElseThrow(
-                () -> new RegraDeNegocioException("Funcionario não encontrado"));
+        funcionarioRepository.findById(idFuncionario).orElseThrow(() -> new RegraDeNegocioException("Funcionario não encontrado"));
 
-        List<FeedbacksDTO> feedbacksDTOList = new ArrayList<>();
-        List<FeedbackEntity> feedbackEntityList = feedbackRepository.findByIdFuncionario(idFuncionario);
-
-        for(FeedbackEntity feedbackEntity : feedbackEntityList) {
-            FeedbacksDTO feedbacksDTO = objectMapper.convertValue(feedbackEntity, FeedbacksDTO.class);
-            feedbacksDTOList.add(feedbacksDTO);
-        }
-        return feedbacksDTOList;
-
+        return feedbackRepository.findByIdFuncionario(idFuncionario).stream()
+                .map(x -> objectMapper.convertValue(x, FeedbacksDTO.class))
+                .collect(Collectors.toList());
 
     }
 

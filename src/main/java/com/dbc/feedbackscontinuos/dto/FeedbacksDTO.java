@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class FeedbacksDTO {
     private Integer idFeedback;
-    private FuncionarioEntity idFuncionario;
-    private FuncionarioEntity idFuncionarioDestino;
+    private FuncionarioDTO idFuncionario;
+    private FuncionarioDTO idFuncionarioDestino;
     private String conteudo;
 }
