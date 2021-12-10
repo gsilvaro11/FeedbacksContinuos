@@ -1,6 +1,5 @@
 package com.dbc.feedbackscontinuos.controller;
 
-import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.dto.FuncionarioCreateDTO;
 import com.dbc.feedbackscontinuos.dto.FuncionarioDTO;
 import com.dbc.feedbackscontinuos.dto.LoginDTO;
@@ -41,7 +40,7 @@ public class FuncionarioController {
     }
 
     @PostMapping("/cadastro")
-    public FuncionarioDTO cadastrarFuncionario(@RequestBody @Valid FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException {
+    public FuncionarioDTO cadastrarFuncionario(@RequestBody @Valid FuncionarioCreateDTO funcionarioCreateDTO)  {
         return funcionarioService.create(funcionarioCreateDTO);
     }
 }
