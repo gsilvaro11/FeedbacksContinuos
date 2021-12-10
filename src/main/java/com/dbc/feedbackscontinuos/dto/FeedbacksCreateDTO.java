@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 @Data
 public class FeedbacksCreateDTO {
+    private Integer funcionario;
+    private Integer funcionarioDestino;
     private String conteudo;
     private Boolean visivel;
 }
