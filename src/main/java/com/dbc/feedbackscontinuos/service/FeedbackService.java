@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +32,8 @@ public class FeedbackService {
                 .map(x -> {
                     FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
                     try {
-                        dto.setFuncionario(funcionarioService.findById(idFuncionario));
-                        dto.setFuncionarioDestino(funcionarioService.findById(x.getIdFuncionarioDestino()));
+                        dto.setFuncionario(funcionarioService.findByIdDTO(idFuncionario));
+                        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(x.getIdFuncionarioDestino()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
                     }
@@ -43,8 +42,15 @@ public class FeedbackService {
 
     }
 
-//    public FeedbacksDTO create(FeedbacksCreateDTO feedbacksCreateDTO) throws RegraDeNegocioException {
-//
-//    }
-
+    public FeedbacksDTO create(Integer idFuncionario, Integer idFuncionarioDestino, FeedbacksCreateDTO feedbacksCreateDTO) throws RegraDeNegocioException {
+        FeedbackEntity entity = objectMapper.convertValue(feedbacksCreateDTO, FeedbackEntity.class);
+        entity.setFuncionarioEntity(funcionarioService.findById(idFuncionario));
+        entity.setIdFuncionarioDestino(idFuncionarioDestino);
+        entity.setStatus(true);
+        feedbackRepository.save(entity);
+        FeedbacksDTO dto = objectMapper.convertValue(entity, FeedbacksDTO.class);
+        dto.setFuncionario(funcionarioService.findByIdDTO(idFuncionario));
+        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(idFuncionarioDestino));
+        return dto;
+    }
 }
