@@ -3,7 +3,8 @@ package com.dbc.feedbackscontinuos.service;
 
 import com.dbc.feedbackscontinuos.dto.FeedbacksDTO;
 import com.dbc.feedbackscontinuos.entity.FeedbackEntity;
-import com.dbc.feedbackscontinuos.exception.RegraDeNegocioException;
+
+import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.repository.FeedbackRepository;
 import com.dbc.feedbackscontinuos.repository.FuncionarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
