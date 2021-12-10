@@ -2,7 +2,7 @@ package com.dbc.feedbackscontinuos.controller;
 
 import com.dbc.feedbackscontinuos.dto.FeedbacksDTO;
 import com.dbc.feedbackscontinuos.entity.FeedbackEntity;
-import com.dbc.feedbackscontinuos.exception.RegraDeNegocioException;
+import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.service.FeedbackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
