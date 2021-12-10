@@ -5,22 +5,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity(name = "tags")
 public class TagsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_tags")
-    private Integer idTag;
-
     @Column(name = "nome_tag")
     private String nomeTag;
 
+    @Column(name = "status")
+    private Boolean status;
+
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_feedback", referencedColumnName = "id_feedback")
-    private FeedbackEntity feedbackEntity;
+    @ManyToMany(mappedBy = "listaTags")
+    private Set<FeedbackEntity> feedbacks;
 
 }

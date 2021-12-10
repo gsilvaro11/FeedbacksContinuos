@@ -6,11 +6,7 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class TagsDTO {
-    private Integer idTag;
-    private Integer idFeedback;
     private String nomeTag;
 
 }
