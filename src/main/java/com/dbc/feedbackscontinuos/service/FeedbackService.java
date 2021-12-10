@@ -25,6 +25,8 @@ public class FeedbackService {
     public List<FeedbacksDTO> list(Integer idFuncionario) throws RegraDeNegocioException {
         funcionarioRepository.findById(idFuncionario).orElseThrow(() -> new RegraDeNegocioException("Funcionario não encontrado"));
 
+
+
         return feedbackRepository.findByIdFuncionario(idFuncionario).stream()
                 .map(x -> objectMapper.convertValue(x, FeedbacksDTO.class))
                 .collect(Collectors.toList());
