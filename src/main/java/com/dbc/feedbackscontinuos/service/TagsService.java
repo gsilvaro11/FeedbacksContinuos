@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,4 +32,13 @@ public class TagsService {
 
         return objectMapper.convertValue(entity, TagsDTO.class);
     }
+
+    public List<TagsDTO> list(){
+        List<TagsEntity> listaEntity = repository.findByStatus();
+        return listaEntity.stream()
+                .map(x -> objectMapper.convertValue(x, TagsDTO.class))
+                .collect(Collectors.toList());
+
+    }
+
 }
