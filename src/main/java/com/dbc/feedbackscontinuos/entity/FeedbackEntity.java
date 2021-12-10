@@ -27,8 +27,8 @@ public class FeedbackEntity {
     @Column(name = "conteudo")
     private String conteudo;
 
-    @Column(name = "deletado")
-    private Boolean deletado;
+    @Column(name = "status")
+    private Boolean status;
 
     @Column(name = "visivel")
     private Boolean visivel;

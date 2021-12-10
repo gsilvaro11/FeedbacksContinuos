@@ -29,9 +29,14 @@ public class FuncionarioService {
         return funcionarioRepository.findByEmail(email);
     }
 
-    public FuncionarioDTO findById(Integer id) throws RegraDeNegocioException {
+    public FuncionarioDTO findByIdDTO(Integer id) throws RegraDeNegocioException {
         FuncionarioEntity entity = funcionarioRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Funcionário não encontrado."));
         return objectMapper.convertValue(entity, FuncionarioDTO.class);
+    }
+
+    public FuncionarioEntity findById(Integer id) throws RegraDeNegocioException {
+        return funcionarioRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Funcionário não encontrado."));
     }
 }
