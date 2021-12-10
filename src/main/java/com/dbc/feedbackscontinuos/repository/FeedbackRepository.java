@@ -11,4 +11,7 @@ import java.util.List;
 public interface FeedbackRepository extends JpaRepository<FeedbackEntity, Integer> {
     @Query(value = "SELECT * FROM FEEDBACK f where f.id_funcionario = :idFuncionario", nativeQuery = true)
     List<FeedbackEntity> findByIdFuncionario(Integer idFuncionario);
+
+    @Query(value= "SELECT * FROM FEEDBACK f where f.id_funcionario_destino = :idFuncionarioDestino", nativeQuery = true)
+    List<FeedbackEntity> findByIdFuncionarioDestino(Integer idFuncionarioDestino);
 }
