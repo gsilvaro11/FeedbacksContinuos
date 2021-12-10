@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/tags")
@@ -23,6 +24,11 @@ public class TagsController {
     @GetMapping("/lista-tags")
     public List<TagsDTO> list(){
         return tagsService.list();
+    }
+
+    @GetMapping("/tag")
+    public List<TagsDTO> listPorNome(@RequestParam String tag) {
+        return tagsService.listByName(tag.toUpperCase(Locale.ROOT));
     }
 
 }
