@@ -1,7 +1,8 @@
 package com.dbc.feedbackscontinuos.dto;
 
-import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class FeedbacksDTO {
@@ -9,4 +10,5 @@ public class FeedbacksDTO {
     private FuncionarioDTO funcionarioOrigem;
     private FuncionarioDTO funcionarioDestino;
     private String conteudo;
+    private List<TagsDTO> tags;
 }

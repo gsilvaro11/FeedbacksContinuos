@@ -46,4 +46,9 @@ public class FuncionarioService {
         return funcionarioRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Funcionário não encontrado."));
     }
+
+    public FuncionarioDTO getById(Integer idFuncionario) throws RegraDeNegocioException {
+        FuncionarioEntity entity = findById(idFuncionario);
+        return objectMapper.convertValue(entity, FuncionarioDTO.class);
+    }
 }
