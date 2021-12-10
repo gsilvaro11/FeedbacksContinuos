@@ -4,7 +4,7 @@ import com.dbc.feedbackscontinuos.dto.FeedbacksCreateDTO;
 import com.dbc.feedbackscontinuos.dto.FeedbacksDTO;
 import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.service.FeedbackService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
