@@ -42,15 +42,16 @@ public class FeedbackService {
 
     }
 
-    public FeedbacksDTO create(Integer idFuncionario, Integer idFuncionarioDestino, FeedbacksCreateDTO feedbacksCreateDTO) throws RegraDeNegocioException {
+    public FeedbacksDTO create(FeedbacksCreateDTO feedbacksCreateDTO) throws RegraDeNegocioException {
+       funcionarioRepository.findById(feedbacksCreateDTO.getFuncionario())
+               .orElseThrow(() -> new RegraDeNegocioException(("Funcionário de origem não encontrado!")));
+
+        funcionarioRepository.findById(feedbacksCreateDTO.getFuncionario())
+                .orElseThrow(() -> new RegraDeNegocioException(("Destino não encontrado!")));
+
         FeedbackEntity entity = objectMapper.convertValue(feedbacksCreateDTO, FeedbackEntity.class);
-        entity.setFuncionarioEntity(funcionarioService.findById(idFuncionario));
-        entity.setIdFuncionarioDestino(idFuncionarioDestino);
-        entity.setStatus(true);
-        feedbackRepository.save(entity);
-        FeedbacksDTO dto = objectMapper.convertValue(entity, FeedbacksDTO.class);
-        dto.setFuncionario(funcionarioService.findByIdDTO(idFuncionario));
-        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(idFuncionarioDestino));
-        return dto;
+        FeedbackEntity feedbackSalvo = feedbackRepository.save(entity);
+
+        return objectMapper.convertValue(feedbackSalvo, FeedbacksDTO.class);
     }
 }
