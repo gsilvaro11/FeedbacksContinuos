@@ -33,7 +33,7 @@ public class FeedbackService {
                 .map(x -> {
                     FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
                     try {
-                        dto.setFuncionario(funcionarioService.findByIdDTO(idFuncionario));
+                        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(idFuncionario));
                         dto.setFuncionarioDestino(funcionarioService.findByIdDTO(x.getIdFuncionarioDestino()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
@@ -52,7 +52,7 @@ public class FeedbackService {
                 .map(x -> {
                     FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
                     try {
-                        dto.setFuncionario(funcionarioService.findByIdDTO(x.getFuncionarioEntity().getIdFuncionario()));
+                        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(x.getFuncionarioEntity().getIdFuncionario()));
                         dto.setFuncionarioDestino(funcionarioService.findByIdDTO(idFuncionario));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
@@ -75,7 +75,7 @@ public class FeedbackService {
         FeedbackEntity feedbackSalvo = feedbackRepository.save(entity);
 
         FeedbacksDTO dto = objectMapper.convertValue(feedbackSalvo, FeedbacksDTO.class);
-        dto.setFuncionario(funcionarioService.findByIdDTO(idFuncionario));
+        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(idFuncionario));
         dto.setFuncionarioDestino(funcionarioService.findByIdDTO(feedbacksCreateDTO.getIdFuncionarioDestino()));
         return dto;
     }
