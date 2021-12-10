@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,5 +33,9 @@ public class FeedbackEntity {
 
     @Column(name = "visivel")
     private Boolean visivel;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "FeedbackEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<TagsEntity> tags;
 
 }
