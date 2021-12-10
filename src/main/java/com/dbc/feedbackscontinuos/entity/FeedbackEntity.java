@@ -35,7 +35,13 @@ public class FeedbackEntity {
     private Boolean visivel;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "feedbackEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<TagsEntity> tags;
+    @ManyToMany
+    @JoinTable(
+            name = "feedtags",
+            joinColumns = @JoinColumn(name = "id_feedback"),
+            inverseJoinColumns = @JoinColumn(name = "nome_tag")
+    )
+    private Set<TagsEntity> listaTags;
+
 
 }
