@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class TagsDTO {
     private String nomeTag;
+    private Boolean status;
 
 }
