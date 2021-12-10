@@ -8,9 +8,8 @@ import javax.persistence.*;
 
 @Data
 public class FeedbacksCreateDTO {
-    private FuncionarioEntity idFuncionario;
-    private FuncionarioEntity idFuncionarioDestino;
+    private Integer idFuncionario;
+    private Integer idFuncionarioDestino;
     private String conteudo;
-    private Boolean deletado;
     private Boolean visivel;
 }
