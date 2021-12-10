@@ -1,6 +1,5 @@
 package com.dbc.feedbackscontinuos.service;
 
-import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.dto.FuncionarioCreateDTO;
 import com.dbc.feedbackscontinuos.dto.FuncionarioDTO;
 import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
@@ -18,7 +17,7 @@ public class FuncionarioService {
     private final FuncionarioRepository funcionarioRepository;
     private final ObjectMapper objectMapper;
 
-    public FuncionarioDTO create(FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException {
+    public FuncionarioDTO create(FuncionarioCreateDTO funcionarioCreateDTO) {
         FuncionarioEntity entity = objectMapper.convertValue(funcionarioCreateDTO, FuncionarioEntity.class);
         entity.setSenha(new BCryptPasswordEncoder().encode(funcionarioCreateDTO.getSenha()));
         funcionarioRepository.save(entity);
