@@ -11,12 +11,14 @@ import com.dbc.feedbackscontinuos.entity.TagsEntity;
 import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.repository.FeedbackRepository;
 import com.dbc.feedbackscontinuos.repository.FuncionarioRepository;
+import com.dbc.feedbackscontinuos.repository.TagsRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +28,7 @@ public class FeedbackService {
     private final FuncionarioRepository funcionarioRepository;
     private final ObjectMapper objectMapper;
     private final FuncionarioService funcionarioService;
+    private final TagsService tagsService;
 
     public List<FeedbacksDTO> listarEnviados(Integer idFuncionario) throws RegraDeNegocioException {
         funcionarioRepository.findById(idFuncionario).orElseThrow(() -> new RegraDeNegocioException("Funcionario não encontrado"));
@@ -70,11 +73,22 @@ public class FeedbackService {
         funcionarioRepository.findById(feedbacksCreateDTO.getIdFuncionarioDestino())
                 .orElseThrow(() -> new RegraDeNegocioException(("Destino não encontrado!")));
 
+        Set<TagsEntity> listaTags = feedbacksCreateDTO.getListaTags().stream()
+                .map(tagsCreateDTO -> {
+                    try {
+                        return tagsService.getById(tagsCreateDTO.getIdTag());
+                    } catch (RegraDeNegocioException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                })
+                .collect(Collectors.toSet());
+
 
         FeedbackEntity entity = objectMapper.convertValue(feedbacksCreateDTO, FeedbackEntity.class);
         entity.setFuncionarioEntity(funcionario);
         entity.setDataFeedback(LocalDateTime.now());
-        entity.setListaTags(feedbacksCreateDTO.getListaTags().stream().map(tagsDTO -> objectMapper.convertValue(tagsDTO, TagsEntity.class)).collect(Collectors.toSet()));
+        entity.setListaTags(listaTags);
         FeedbackEntity feedbackSalvo = feedbackRepository.save(entity);
 
         FeedbacksDTO dto = objectMapper.convertValue(feedbackSalvo, FeedbacksDTO.class);
