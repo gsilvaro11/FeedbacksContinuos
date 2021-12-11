@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 
@@ -28,8 +29,8 @@ public class FuncionarioEntity implements UserDetails {
     @Column(name = "senha")
     private String senha;
 
-    @Column(name = "url_imagem")
-    private String urlImagem;
+    @Column(name = "data_registro")
+    private LocalDateTime dataRegistro;
 
     @JsonIgnore
     @OneToMany(mappedBy = "funcionarioEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
