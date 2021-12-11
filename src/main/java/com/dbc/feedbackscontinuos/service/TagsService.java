@@ -47,4 +47,9 @@ public class TagsService {
                 .map(x -> objectMapper.convertValue(x, TagsDTO.class))
                 .collect(Collectors.toList());
     }
+
+    public TagsEntity getById(Integer id) throws RegraDeNegocioException {
+        return repository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Tag não encontrada."));
+    }
 }
