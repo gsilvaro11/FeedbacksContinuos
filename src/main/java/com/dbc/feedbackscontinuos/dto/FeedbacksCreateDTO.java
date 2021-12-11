@@ -16,5 +16,5 @@ public class FeedbacksCreateDTO {
     @NotBlank
     private String conteudo;
     private Boolean visivel;
-    private List<TagsDTO> listaTags;
+    private List<TagsCreateDTO> listaTags;
 }
