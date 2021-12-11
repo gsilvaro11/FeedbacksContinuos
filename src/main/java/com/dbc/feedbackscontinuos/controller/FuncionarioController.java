@@ -27,6 +27,7 @@ public class FuncionarioController {
     private final TokenService tokenService;
     private final FuncionarioService funcionarioService;
 
+
     @PostMapping("/login")
     public String login(@RequestBody @Valid LoginDTO loginDTO) {
         UsernamePasswordAuthenticationToken user =
@@ -56,7 +57,11 @@ public class FuncionarioController {
 
     @GetMapping("/funcionarios")
     public List<FuncionarioDTO> list(){
-        return funcionarioService.list();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String principal = (String) authentication.getPrincipal();
+        Integer idFuncionario = Integer.valueOf(principal);
+
+        return funcionarioService.list(idFuncionario);
     }
 
 }
