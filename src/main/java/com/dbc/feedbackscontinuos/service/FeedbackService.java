@@ -3,9 +3,11 @@ package com.dbc.feedbackscontinuos.service;
 
 import com.dbc.feedbackscontinuos.dto.FeedbacksCreateDTO;
 import com.dbc.feedbackscontinuos.dto.FeedbacksDTO;
+import com.dbc.feedbackscontinuos.dto.TagsDTO;
 import com.dbc.feedbackscontinuos.entity.FeedbackEntity;
 
 import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
+import com.dbc.feedbackscontinuos.entity.TagsEntity;
 import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.repository.FeedbackRepository;
 import com.dbc.feedbackscontinuos.repository.FuncionarioRepository;
@@ -28,14 +30,13 @@ public class FeedbackService {
     public List<FeedbacksDTO> listarEnviados(Integer idFuncionario) throws RegraDeNegocioException {
         funcionarioRepository.findById(idFuncionario).orElseThrow(() -> new RegraDeNegocioException("Funcionario não encontrado"));
 
-
-
         return feedbackRepository.findByIdFuncionario(idFuncionario).stream()
                 .map(x -> {
                     FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
                     try {
                         dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(idFuncionario));
                         dto.setFuncionarioDestino(funcionarioService.findByIdDTO(x.getIdFuncionarioDestino()));
+                        dto.setTags(x.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
                     }
@@ -47,14 +48,13 @@ public class FeedbackService {
     public List<FeedbacksDTO> listarRecebidos(Integer idFuncionario) throws RegraDeNegocioException {
         funcionarioRepository.findById(idFuncionario).orElseThrow(() -> new RegraDeNegocioException("Funcionario não encontrado"));
 
-
-
         return feedbackRepository.findByIdFuncionarioDestino(idFuncionario).stream()
                 .map(x -> {
                     FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
                     try {
                         dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(x.getFuncionarioEntity().getIdFuncionario()));
                         dto.setFuncionarioDestino(funcionarioService.findByIdDTO(idFuncionario));
+                        dto.setTags(x.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
                     }
@@ -74,12 +74,13 @@ public class FeedbackService {
         FeedbackEntity entity = objectMapper.convertValue(feedbacksCreateDTO, FeedbackEntity.class);
         entity.setFuncionarioEntity(funcionario);
         entity.setDataFeedback(LocalDateTime.now());
+        entity.setListaTags(feedbacksCreateDTO.getListaTags().stream().map(tagsDTO -> objectMapper.convertValue(tagsDTO, TagsEntity.class)).collect(Collectors.toSet()));
         FeedbackEntity feedbackSalvo = feedbackRepository.save(entity);
 
         FeedbacksDTO dto = objectMapper.convertValue(feedbackSalvo, FeedbacksDTO.class);
         dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(idFuncionario));
         dto.setFuncionarioDestino(funcionarioService.findByIdDTO(feedbacksCreateDTO.getIdFuncionarioDestino()));
-        dto.setTags(feedbacksCreateDTO.getListaTags());
+        dto.setTags(entity.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
         return dto;
     }
 }

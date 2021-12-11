@@ -12,6 +12,10 @@ import java.util.Set;
 @Entity(name = "tags")
 public class TagsEntity {
     @Id
+    @Column(name = "id_tag")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idTag;
+
     @Column(name = "nome_tag")
     private String nomeTag;
 

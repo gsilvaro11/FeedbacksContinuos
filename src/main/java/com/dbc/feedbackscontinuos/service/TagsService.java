@@ -47,5 +47,4 @@ public class TagsService {
                 .map(x -> objectMapper.convertValue(x, TagsDTO.class))
                 .collect(Collectors.toList());
     }
-
 }
