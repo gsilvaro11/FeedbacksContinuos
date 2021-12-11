@@ -20,19 +20,6 @@ public class TagsService {
     private final ObjectMapper objectMapper;
     private final FeedbackRepository feedbackRepository;
 
-    public TagsDTO create(TagsDTO tagsDTO) throws RegraDeNegocioException {
-        TagsEntity entity = objectMapper.convertValue(tagsDTO, TagsEntity.class);
-        Optional<TagsEntity> tags = repository.findByNomeTag(tagsDTO.getNomeTag());
-        if(tags.isPresent()){
-            throw new RegraDeNegocioException("Tag já cadastrada.");
-        }
-
-        entity.setStatus(true);
-        repository.save(entity);
-
-        return objectMapper.convertValue(entity, TagsDTO.class);
-    }
-
     public List<TagsDTO> list(){
         List<TagsEntity> listaEntity = repository.findByStatus();
         return listaEntity.stream()

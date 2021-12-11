@@ -16,11 +16,6 @@ import java.util.Locale;
 public class TagsController {
     private final TagsService tagsService;
 
-    @PostMapping("/envia-tag")
-    public TagsDTO create(@RequestBody TagsDTO tagsDTO) throws RegraDeNegocioException {
-        return tagsService.create(tagsDTO);
-    }
-
     @GetMapping("/lista-tags")
     public List<TagsDTO> list(){
         return tagsService.list();
