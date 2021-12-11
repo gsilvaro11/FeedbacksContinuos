@@ -2,6 +2,7 @@ package com.dbc.feedbackscontinuos.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -10,5 +11,6 @@ public class FeedbacksDTO {
     private FuncionarioDTO funcionarioOrigem;
     private FuncionarioDTO funcionarioDestino;
     private String conteudo;
+    private LocalDateTime dataFeedback;
     private List<TagsDTO> tags;
 }

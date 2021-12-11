@@ -11,5 +11,4 @@ public class FuncionarioDTO {
     private Integer idFuncionario;
     private String nome;
     private String email;
-    private String urlImagem;
 }

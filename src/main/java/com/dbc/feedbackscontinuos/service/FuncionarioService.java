@@ -11,6 +11,7 @@ import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -26,6 +27,7 @@ public class FuncionarioService {
             throw new RegraDeNegocioException("Email já cadastrado.");
         }
         entity.setSenha(new BCryptPasswordEncoder().encode(funcionarioCreateDTO.getSenha()));
+        entity.setDataRegistro(LocalDateTime.now());
 
         funcionarioRepository.save(entity);
 

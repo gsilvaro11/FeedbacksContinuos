@@ -11,5 +11,4 @@ public class FuncionarioCreateDTO {
     private String nome;
     private String email;
     private String senha;
-    private String urlImagem;
 }

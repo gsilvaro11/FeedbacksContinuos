@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -33,6 +35,9 @@ public class FeedbackEntity {
 
     @Column(name = "visivel")
     private Boolean visivel;
+
+    @Column(name = "data_feedback")
+    private LocalDateTime dataFeedback;
 
     @JsonIgnore
     @ManyToMany
