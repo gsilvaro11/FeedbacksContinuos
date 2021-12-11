@@ -42,9 +42,9 @@ public class FeedbackEntity {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-            name = "feedtags",
+            name = "feedback_tag",
             joinColumns = @JoinColumn(name = "id_feedback"),
-            inverseJoinColumns = @JoinColumn(name = "nome_tag")
+            inverseJoinColumns = @JoinColumn(name = "id_tag")
     )
     private Set<TagsEntity> listaTags;
 
