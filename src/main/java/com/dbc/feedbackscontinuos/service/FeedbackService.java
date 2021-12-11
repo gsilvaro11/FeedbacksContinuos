@@ -77,6 +77,7 @@ public class FeedbackService {
         FeedbacksDTO dto = objectMapper.convertValue(feedbackSalvo, FeedbacksDTO.class);
         dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(idFuncionario));
         dto.setFuncionarioDestino(funcionarioService.findByIdDTO(feedbacksCreateDTO.getIdFuncionarioDestino()));
+        dto.setTags(feedbacksCreateDTO.getListaTags());
         return dto;
     }
 }
