@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/funcionario")
@@ -52,4 +53,10 @@ public class FuncionarioController {
 
         return funcionarioService.getById(idFuncionario);
     }
+
+    @GetMapping("/funcionarios")
+    public List<FuncionarioDTO> list(){
+        return funcionarioService.list();
+    }
+
 }

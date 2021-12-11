@@ -12,7 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,8 +41,7 @@ public class FuncionarioService {
     }
 
     public FuncionarioDTO findByIdDTO(Integer id) throws RegraDeNegocioException {
-        FuncionarioEntity entity = funcionarioRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Funcionário não encontrado."));
+        FuncionarioEntity entity = findById(id);
         return objectMapper.convertValue(entity, FuncionarioDTO.class);
     }
 
@@ -53,4 +54,12 @@ public class FuncionarioService {
         FuncionarioEntity entity = findById(idFuncionario);
         return objectMapper.convertValue(entity, FuncionarioDTO.class);
     }
+
+    public List<FuncionarioDTO> list(){
+        List<FuncionarioEntity> entities = funcionarioRepository.findAll();
+        return entities.stream()
+                .map(x -> objectMapper.convertValue(x, FuncionarioDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }
