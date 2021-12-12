@@ -66,6 +66,42 @@ public class FeedbackService {
 
     }
 
+    public List<FeedbacksDTO> listarEnviadosVisivel(Integer idFuncionario) throws RegraDeNegocioException {
+        funcionarioRepository.findById(idFuncionario).orElseThrow(() -> new RegraDeNegocioException("Funcionario não encontrado"));
+
+        return feedbackRepository.findByIdVisivelTrue(idFuncionario).stream()
+                .map(x -> {
+                    FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
+                    try {
+                        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(idFuncionario));
+                        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(x.getIdFuncionarioDestino()));
+                        dto.setTags(x.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
+                    } catch (RegraDeNegocioException e) {
+                        e.printStackTrace();
+                    }
+                    return dto;
+                }).collect(Collectors.toList());
+
+    }
+
+    public List<FeedbacksDTO> listarRecebidosVisivel(Integer idFuncionario) throws RegraDeNegocioException {
+        funcionarioRepository.findById(idFuncionario).orElseThrow(() -> new RegraDeNegocioException("Funcionario não encontrado"));
+
+        return feedbackRepository.findByIdDestinoVisivelTrue(idFuncionario).stream()
+                .map(x -> {
+                    FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
+                    try {
+                        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(x.getFuncionarioEntity().getIdFuncionario()));
+                        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(idFuncionario));
+                        dto.setTags(x.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
+                    } catch (RegraDeNegocioException e) {
+                        e.printStackTrace();
+                    }
+                    return dto;
+                }).collect(Collectors.toList());
+
+    }
+
     public FeedbacksDTO create(FeedbacksCreateDTO feedbacksCreateDTO, Integer idFuncionario) throws RegraDeNegocioException {
        FuncionarioEntity funcionario = funcionarioRepository.findById(idFuncionario)
                .orElseThrow(() -> new RegraDeNegocioException(("Funcionário de origem não encontrado!")));
