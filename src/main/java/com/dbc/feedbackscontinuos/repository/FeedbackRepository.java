@@ -15,4 +15,10 @@ public interface FeedbackRepository extends JpaRepository<FeedbackEntity, Intege
     @Query(value= "SELECT * FROM FEEDBACK f where f.id_funcionario_destino = :idFuncionarioDestino order by f.data_feedback desc",
             nativeQuery = true)
     List<FeedbackEntity> findByIdFuncionarioDestino(Integer idFuncionarioDestino);
+
+    @Query(value = "select * from feedback f where id_funcionario = :id and visivel = true", nativeQuery = true)
+    List<FeedbackEntity> findByIdVisivelTrue(Integer id);
+
+    @Query(value = "select * from feedback f where id_funcionario_destino = :id and visivel = true", nativeQuery = true)
+    List<FeedbackEntity> findByIdDestinoVisivelTrue(Integer id);
 }

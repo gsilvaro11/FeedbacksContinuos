@@ -44,6 +44,16 @@ public class FeedbackController {
 
     }
 
+    @GetMapping("/{idFuncionario}/enviados-vis")
+    public List<FeedbacksDTO> listarEnviadosVisiveis(@PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
+        return feedbackService.listarEnviadosVisivel(idFuncionario);
+    }
+
+    @GetMapping("/{idFuncionario}/recebidos-vis")
+    public List<FeedbacksDTO> listarRecebidosVisiveis(@PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
+        return feedbackService.listarRecebidosVisivel(idFuncionario);
+    }
+
     @PostMapping("/postar")
     public FeedbacksDTO create(@RequestBody @Valid FeedbacksCreateDTO feedbacksCreateDTO) throws RegraDeNegocioException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
