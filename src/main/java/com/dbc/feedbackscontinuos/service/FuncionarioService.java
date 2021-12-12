@@ -55,8 +55,8 @@ public class FuncionarioService {
         return objectMapper.convertValue(entity, FuncionarioDTO.class);
     }
 
-    public List<FuncionarioDTO> list(){
-        List<FuncionarioEntity> entities = funcionarioRepository.findAll();
+    public List<FuncionarioDTO> list(Integer idFuncionario){
+        List<FuncionarioEntity> entities = funcionarioRepository.findFuncionariosExeto(idFuncionario);
         return entities.stream()
                 .map(x -> objectMapper.convertValue(x, FuncionarioDTO.class))
                 .collect(Collectors.toList());
