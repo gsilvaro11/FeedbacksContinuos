@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface FuncionarioRepository extends JpaRepository<FuncionarioEntity, Integer> {
     Optional<FuncionarioEntity> findByEmail(String email);
 
-    @Query(value = "select * from Funcionario f where f.id_funcionario != :id", nativeQuery = true)
+    @Query(value = "select * from Funcionario f where f.id_funcionario != :id order by f.nome", nativeQuery = true)
     List<FuncionarioEntity> findFuncionariosExeto(Integer id);
 
 }
