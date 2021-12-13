@@ -97,7 +97,7 @@ public class FuncionarioController {
             @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
             @ApiResponse(code = 500, message = "Problema interno no sistema."),
     })
-    @GetMapping("/funcionarios/{idFuncionario}")
+    @GetMapping("/{idFuncionario}")
     public FuncionarioDTO getById(@PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
        return funcionarioService.getById(idFuncionario);
     }
