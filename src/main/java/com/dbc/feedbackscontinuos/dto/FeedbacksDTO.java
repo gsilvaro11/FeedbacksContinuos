@@ -13,6 +13,6 @@ public class FeedbacksDTO {
     private FuncionarioDTO funcionarioOrigem;
     private FuncionarioDTO funcionarioDestino;
     private String conteudo;
-    private ZonedDateTime dataFeedback;
+    private LocalDateTime dataFeedback;
     private List<TagsDTO> tags;
 }
