@@ -98,4 +98,20 @@ public class FeedbackController {
         return feedbackService.create(feedbacksCreateDTO, idFuncionario);
     }
 
+
+    @ApiOperation(value = "Muda um feedback de visivel para invisivel e vice-versa.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
+            @ApiResponse(code = 400, message = "Há dados inseridos incorretamente ou pessoa não encontrada."),
+            @ApiResponse(code = 500, message = "Problema interno no sistema."),
+    })
+    @PutMapping("/alterar-visivel/{feedbackId}")
+    public FeedbacksDTO alterarVisivel(@PathVariable("feedbackId") Integer feedbackId) throws RegraDeNegocioException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String principal = (String) authentication.getPrincipal();
+
+        Integer idFuncionario = Integer.valueOf(principal);
+        return feedbackService.updateVisivel(feedbackId, idFuncionario);
+    }
+
 }

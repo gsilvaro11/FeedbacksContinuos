@@ -22,12 +22,10 @@ public class FeedbacksCreateDTO {
     @Size(max = 500)
     @ApiModelProperty(value = "Texto do feedback.")
     private String conteudo;
-    @NotNull
-    @ApiModelProperty(value = "True para feedback público e false para feedback privado.")
-    private Boolean visivel;
     @ApiModelProperty(value = "Lista de tags que serão incluídas no feedback.")
     private List<TagsCreateDTO> listaTags;
     @NotNull
+    @ApiModelProperty(value = "True para feedback anônimo e false para não-anônimo")
     private Boolean anonimo;
 
 }
