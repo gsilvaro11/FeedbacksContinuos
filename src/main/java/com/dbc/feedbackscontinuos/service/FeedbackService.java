@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -123,7 +124,7 @@ public class FeedbackService {
 
         FeedbackEntity entity = objectMapper.convertValue(feedbacksCreateDTO, FeedbackEntity.class);
         entity.setFuncionarioEntity(funcionario);
-        entity.setDataFeedback(LocalDateTime.now());
+        entity.setDataFeedback(LocalDateTime.now().atZone(ZoneId.of("America/Sao_Paulo")));
         entity.setListaTags(listaTags);
         FeedbackEntity feedbackSalvo = feedbackRepository.save(entity);
 

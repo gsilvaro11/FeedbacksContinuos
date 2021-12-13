@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class FuncionarioEntity implements UserDetails {
     private String senha;
 
     @Column(name = "data_registro")
-    private LocalDateTime dataRegistro;
+    private ZonedDateTime dataRegistro;
 
     @JsonIgnore
     @OneToMany(mappedBy = "funcionarioEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
