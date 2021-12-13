@@ -25,9 +25,13 @@ public class FuncionarioService {
     public FuncionarioDTO create(FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException{
         FuncionarioEntity entity = objectMapper.convertValue(funcionarioCreateDTO, FuncionarioEntity.class);
         Optional<FuncionarioEntity> funcionario = funcionarioRepository.findByEmail(funcionarioCreateDTO.getEmail());
+
         if(funcionario.isPresent()){
             throw new RegraDeNegocioException("Email já cadastrado.");
+        }else if (!funcionarioCreateDTO.getEmail().contains("@dbccompany.com")){
+            throw new RegraDeNegocioException("Email precisa ter dominio: dbccompany!");
         }
+
         entity.setSenha(new BCryptPasswordEncoder().encode(funcionarioCreateDTO.getSenha()));
         entity.setDataRegistro(LocalDateTime.now());
 
