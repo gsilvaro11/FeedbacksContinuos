@@ -8,11 +8,13 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class LoginDTO {
-    @NotNull
-    @NotBlank
+
+    @NotNull(message = "Não pode ser nulo")
+    @NotBlank(message = "Não pode estár em branco!")
     @Email
     private String email;
-    @NotNull
-    @NotBlank
+
+    @NotNull(message = "Não pode ser nulo")
+    @NotBlank(message = "Não pode estár em branco!")
     private String senha;
 }

@@ -13,8 +13,12 @@ import java.util.List;
 public class FeedbacksCreateDTO {
     @NotNull
     private Integer idFuncionarioDestino;
+
     @NotBlank
     private String conteudo;
+
+    @NotNull
     private Boolean visivel;
+
     private List<TagsCreateDTO> listaTags;
 }
