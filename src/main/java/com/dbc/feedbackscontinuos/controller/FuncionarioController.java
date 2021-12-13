@@ -7,6 +7,9 @@ import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
 import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.security.TokenService;
 import com.dbc.feedbackscontinuos.service.FuncionarioService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,9 +30,14 @@ public class FuncionarioController {
     private final TokenService tokenService;
     private final FuncionarioService funcionarioService;
 
-
+    @ApiOperation(value = "Onde o usuário insere e-mail e senha cadastrados e obtem um token JWT para acesso.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
+            @ApiResponse(code = 400, message = "Há dados inseridos incorretamente ou pessoa não encontrada."),
+            @ApiResponse(code = 500, message = "Problema interno no sistema."),
+    })
     @PostMapping("/login")
-    public String login(@RequestBody @Valid LoginDTO loginDTO) {
+    public String login(@RequestBody LoginDTO loginDTO) {
         UsernamePasswordAuthenticationToken user =
                 new UsernamePasswordAuthenticationToken(
                         loginDTO.getEmail(),
@@ -40,11 +48,24 @@ public class FuncionarioController {
         return tokenService.generateToken((FuncionarioEntity) authenticate.getPrincipal());
     }
 
+
+    @ApiOperation(value = "Cria um novo cadastro de usuário;")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
+            @ApiResponse(code = 400, message = "Há dados inseridos incorretamente."),
+            @ApiResponse(code = 500, message = "Problema interno no sistema."),
+    })
     @PostMapping("/cadastro")
     public FuncionarioDTO cadastrarFuncionario(@RequestBody @Valid FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException {
         return funcionarioService.create(funcionarioCreateDTO);
     }
 
+
+    @ApiOperation(value = "Mostra o usuário logado no momento.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
+            @ApiResponse(code = 500, message = "Problema interno no sistema."),
+    })
     @GetMapping("/usuario")
     public FuncionarioDTO getById() throws RegraDeNegocioException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -55,6 +76,12 @@ public class FuncionarioController {
         return funcionarioService.getById(idFuncionario);
     }
 
+
+    @ApiOperation(value = "Lista todos os usuários exceto o usuário logado no momento.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
+            @ApiResponse(code = 500, message = "Problema interno no sistema."),
+    })
     @GetMapping("/funcionarios")
     public List<FuncionarioDTO> list(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
