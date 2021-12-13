@@ -27,4 +27,7 @@ public class FeedbacksCreateDTO {
     private Boolean visivel;
     @ApiModelProperty(value = "Lista de tags que serão incluídas no feedback.")
     private List<TagsCreateDTO> listaTags;
+    @NotNull
+    private Boolean anonimo;
+
 }
