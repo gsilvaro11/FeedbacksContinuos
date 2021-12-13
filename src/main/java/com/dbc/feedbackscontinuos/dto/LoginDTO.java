@@ -1,18 +1,13 @@
 package com.dbc.feedbackscontinuos.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class LoginDTO {
-    @NotNull
-    @NotBlank
-    @Email
+    @ApiModelProperty(value = "E-mail cadastrado do usuário.")
     private String email;
-    @NotNull
-    @NotBlank
+    @ApiModelProperty(value = "Senha cadastrada do usuário.")
     private String senha;
 }
