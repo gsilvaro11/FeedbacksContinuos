@@ -28,7 +28,7 @@ public class FuncionarioService {
 
         if(funcionario.isPresent()){
             throw new RegraDeNegocioException("Email já cadastrado.");
-        }else if (!funcionarioCreateDTO.getEmail().contains("@dbccompany.com")){
+        }else if (!funcionarioCreateDTO.getEmail().contains("@dbccompany.com.br")){
             throw new RegraDeNegocioException("Email precisa ter dominio: dbccompany!");
         }
 
