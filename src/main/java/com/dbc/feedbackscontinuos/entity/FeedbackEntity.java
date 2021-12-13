@@ -38,7 +38,7 @@ public class FeedbackEntity {
     private Boolean visivel;
 
     @Column(name = "data_feedback")
-    private ZonedDateTime dataFeedback;
+    private LocalDateTime dataFeedback;
 
     @JsonIgnore
     @ManyToMany

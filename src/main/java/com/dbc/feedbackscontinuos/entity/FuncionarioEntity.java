@@ -31,7 +31,7 @@ public class FuncionarioEntity implements UserDetails {
     private String senha;
 
     @Column(name = "data_registro")
-    private ZonedDateTime dataRegistro;
+    private LocalDateTime dataRegistro;
 
     @JsonIgnore
     @OneToMany(mappedBy = "funcionarioEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

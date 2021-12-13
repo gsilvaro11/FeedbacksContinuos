@@ -124,7 +124,7 @@ public class FeedbackService {
 
         FeedbackEntity entity = objectMapper.convertValue(feedbacksCreateDTO, FeedbackEntity.class);
         entity.setFuncionarioEntity(funcionario);
-        entity.setDataFeedback(LocalDateTime.now().atZone(ZoneId.of("America/Sao_Paulo")));
+        entity.setDataFeedback(LocalDateTime.now().minusHours(3));
         entity.setListaTags(listaTags);
         FeedbackEntity feedbackSalvo = feedbackRepository.save(entity);
 

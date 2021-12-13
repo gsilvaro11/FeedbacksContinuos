@@ -34,7 +34,7 @@ public class FuncionarioService {
         }
 
         entity.setSenha(new BCryptPasswordEncoder().encode(funcionarioCreateDTO.getSenha()));
-        entity.setDataRegistro(LocalDateTime.now().atZone(ZoneId.of("America/Sao_Paulo")));
+        entity.setDataRegistro(LocalDateTime.now().minusHours(3));
 
         funcionarioRepository.save(entity);
 
