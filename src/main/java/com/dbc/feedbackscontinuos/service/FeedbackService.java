@@ -126,6 +126,7 @@ public class FeedbackService {
         entity.setFuncionarioEntity(funcionario);
         entity.setDataFeedback(LocalDateTime.now().minusHours(3));
         entity.setListaTags(listaTags);
+        entity.setStatus(true);
         FeedbackEntity feedbackSalvo = feedbackRepository.save(entity);
 
         FeedbacksDTO dto = objectMapper.convertValue(feedbackSalvo, FeedbacksDTO.class);

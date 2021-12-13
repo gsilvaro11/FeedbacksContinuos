@@ -40,6 +40,9 @@ public class FeedbackEntity {
     @Column(name = "data_feedback")
     private LocalDateTime dataFeedback;
 
+    @Column(name = "anonimo")
+    private Boolean anonimo;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
