@@ -91,4 +91,15 @@ public class FuncionarioController {
         return funcionarioService.list(idFuncionario);
     }
 
+
+    @ApiOperation(value = "Busca um usuário através do Id diretamente na URL.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
+            @ApiResponse(code = 500, message = "Problema interno no sistema."),
+    })
+    @GetMapping("/funcionarios/{idFuncionario}")
+    public FuncionarioDTO getById(@PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
+       return funcionarioService.getById(idFuncionario);
+    }
+
 }

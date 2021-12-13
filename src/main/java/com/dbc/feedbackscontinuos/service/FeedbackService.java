@@ -31,6 +31,11 @@ public class FeedbackService {
     private final FuncionarioService funcionarioService;
     private final TagsService tagsService;
 
+    public FeedbackEntity getById(Integer feedbackId) throws RegraDeNegocioException {
+       return feedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new RegraDeNegocioException("Feedback não encontrado."));
+    }
+
     public List<FeedbacksDTO> listarEnviados(Integer idFuncionario) throws RegraDeNegocioException {
         funcionarioRepository.findById(idFuncionario).orElseThrow(() -> new RegraDeNegocioException("Funcionario não encontrado"));
 
@@ -126,12 +131,29 @@ public class FeedbackService {
         entity.setFuncionarioEntity(funcionario);
         entity.setDataFeedback(LocalDateTime.now().minusHours(3));
         entity.setListaTags(listaTags);
+        entity.setVisivel(true);
         entity.setStatus(true);
         FeedbackEntity feedbackSalvo = feedbackRepository.save(entity);
 
         FeedbacksDTO dto = objectMapper.convertValue(feedbackSalvo, FeedbacksDTO.class);
         dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(idFuncionario));
         dto.setFuncionarioDestino(funcionarioService.findByIdDTO(feedbacksCreateDTO.getIdFuncionarioDestino()));
+        dto.setTags(entity.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
+        return dto;
+    }
+
+    public FeedbacksDTO updateVisivel(Integer idFeedback, Integer idFuncionario) throws RegraDeNegocioException {
+        FeedbackEntity entity = getById(idFeedback);
+        if(idFuncionario == entity.getIdFuncionarioDestino()){
+            entity.setVisivel(!entity.getVisivel());
+        }else{
+            throw new RegraDeNegocioException("Acesso negado!");
+        }
+
+        FeedbackEntity feedbackAtualizado = feedbackRepository.save(entity);
+        FeedbacksDTO dto = objectMapper.convertValue(feedbackAtualizado, FeedbacksDTO.class);
+        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(entity.getFuncionarioEntity().getIdFuncionario()));
+        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(entity.getIdFuncionarioDestino()));
         dto.setTags(entity.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
         return dto;
     }
