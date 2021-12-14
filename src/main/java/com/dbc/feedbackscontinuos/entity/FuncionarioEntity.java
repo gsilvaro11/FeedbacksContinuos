@@ -1,19 +1,23 @@
 package com.dbc.feedbackscontinuos.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javassist.bytecode.ByteArray;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Set;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "funcionario")
 public class FuncionarioEntity implements UserDetails {
     @Id
@@ -32,6 +36,10 @@ public class FuncionarioEntity implements UserDetails {
 
     @Column(name = "data_registro")
     private LocalDateTime dataRegistro;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "funcionario")
+    private FotoPerfilEntity fotoPerfil;
 
     @JsonIgnore
     @OneToMany(mappedBy = "funcionarioEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

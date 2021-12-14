@@ -7,16 +7,20 @@ import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
 import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.security.TokenService;
 import com.dbc.feedbackscontinuos.service.FuncionarioService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,6 +33,7 @@ public class FuncionarioController {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
     private final FuncionarioService funcionarioService;
+    private final ObjectMapper objectMapper;
 
     @ApiOperation(value = "Onde o usuário insere e-mail e senha cadastrados e obtem um token JWT para acesso.")
     @ApiResponses(value = {
