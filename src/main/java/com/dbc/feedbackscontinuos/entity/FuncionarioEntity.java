@@ -37,9 +37,12 @@ public class FuncionarioEntity implements UserDetails {
     @Column(name = "data_registro")
     private LocalDateTime dataRegistro;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "funcionario")
-    private FotoPerfilEntity fotoPerfil;
+    @Column(name = "data")
+    private Byte[] data;
+
+    @Column(name = "tipo_imagem")
+    private String tipoImagem;
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "funcionarioEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
