@@ -63,9 +63,14 @@ public class FuncionarioService {
                 .orElseThrow(() -> new RegraDeNegocioException("Funcionário não encontrado."));
     }
 
-    public FuncionarioDTO getById(Integer idFuncionario) throws RegraDeNegocioException {
-        FuncionarioEntity entity = findById(idFuncionario);
-        return objectMapper.convertValue(entity, FuncionarioDTO.class);
+    public FuncionarioEntity findByIdForDownload(Integer id) throws RegraDeNegocioException {
+        FuncionarioEntity entity = funcionarioRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Funcionário não encontrado."));
+
+        if(entity.getData() == null){
+            throw new RegraDeNegocioException("Foto não encontrada");
+        }
+        return entity;
     }
 
     public List<FuncionarioDTO> list(Integer idFuncionario){
@@ -75,5 +80,40 @@ public class FuncionarioService {
                 .collect(Collectors.toList());
     }
 
+    public FuncionarioDTO storeFile(MultipartFile file, Integer idFuncionario) throws RegraDeNegocioException {
+        FuncionarioEntity funcionario = funcionarioRepository.findById(idFuncionario)
+                .orElseThrow(() -> new RegraDeNegocioException("Usuario n encontrado"));
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+        try {
+            if(fileName.contains("..")) {
+                throw new RegraDeNegocioException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+
+            funcionario.setTipoImagem(file.getContentType());
+            funcionario.setData(toObjects(file.getBytes()));
+
+            return objectMapper.convertValue(funcionarioRepository.save(funcionario), FuncionarioDTO.class);
+        } catch (RegraDeNegocioException | IOException ex) {
+            throw new RegraDeNegocioException("Não salvou o arquivo.");
+        }
+    }
+
+    private Byte[] toObjects(byte[] bytesPrim) {
+        Byte[] bytes = new Byte[bytesPrim.length];
+        Arrays.setAll(bytes, n -> bytesPrim[n]);
+        return bytes;
+    }
+
+
+    public byte[] toPrimitive(Byte[] imagem) {
+        byte[] b2 = new byte[imagem.length];
+        for (int i = 0; i < imagem.length; i++)
+        {
+            b2[i] = imagem[i];
+        }
+        return b2;
+    }
 
 }
