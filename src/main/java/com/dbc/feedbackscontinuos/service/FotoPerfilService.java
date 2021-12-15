@@ -21,6 +21,11 @@ public class FotoPerfilService {
     private final FuncionarioService funcionarioService;
 
     public FotoPerfilEntity storeFile(MultipartFile file, Integer idFuncionario) throws RegraDeNegocioException {
+
+        if(fotoPerfilRepository.verificaSeFuncionarioPossuiFoto(idFuncionario) > 0){
+            throw new RegraDeNegocioException("Usuário já possui foto cadastrada!");
+        };
+
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
