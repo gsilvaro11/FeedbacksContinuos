@@ -22,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -103,7 +104,7 @@ public class FuncionarioController {
             @ApiResponse(code = 500, message = "Problema interno no sistema."),
     })
     @GetMapping("/{idFuncionario}")
-    public FuncionarioDTO getById(@PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
+    public FuncionarioDTO getById(HttpServletResponse response, @PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
        return funcionarioService.getById(idFuncionario);
     }
 

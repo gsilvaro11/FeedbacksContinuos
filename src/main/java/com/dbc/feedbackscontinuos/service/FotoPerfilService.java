@@ -26,9 +26,7 @@ public class FotoPerfilService {
         if(fotoPerfilRepository.verificaSeFuncionarioPossuiFoto(idFuncionario) > 0){
             throw new RegraDeNegocioException("Usuário já possui foto cadastrada!");
         }
-
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
         try {
             if(fileName.contains("..")) {
                 throw new RegraDeNegocioException("Sorry! Filename contains invalid path sequence " + fileName);
@@ -55,19 +53,16 @@ public class FotoPerfilService {
                 .body(new ByteArrayResource(toPrimitive(entity.getData())));
     }
 
-
     private Byte[] toObjects(byte[] bytesPrim) {
         Byte[] bytes = new Byte[bytesPrim.length];
         Arrays.setAll(bytes, n -> bytesPrim[n]);
         return bytes;
     }
 
-
     public FotoPerfilEntity getById(Integer id) throws RegraDeNegocioException {
         return fotoPerfilRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Imagem não encontrada."));
     }
-
 
     public byte[] toPrimitive(Byte[] imagem) {
         byte[] b2 = new byte[imagem.length];

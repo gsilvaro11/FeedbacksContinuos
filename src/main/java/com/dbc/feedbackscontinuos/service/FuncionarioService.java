@@ -2,34 +2,29 @@ package com.dbc.feedbackscontinuos.service;
 
 import com.dbc.feedbackscontinuos.dto.FuncionarioCreateDTO;
 import com.dbc.feedbackscontinuos.dto.FuncionarioDTO;
+import com.dbc.feedbackscontinuos.entity.FotoPerfilEntity;
 import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
 import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
+import com.dbc.feedbackscontinuos.repository.FotoPerfilRepository;
 import com.dbc.feedbackscontinuos.repository.FuncionarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import org.springframework.util.Base64Utils;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FuncionarioService {
     private final FuncionarioRepository funcionarioRepository;
     private final ObjectMapper objectMapper;
+    private final FotoPerfilRepository fotoPerfilRepository;
 
     public FuncionarioDTO create(FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException{
         FuncionarioEntity entity = objectMapper.convertValue(funcionarioCreateDTO, FuncionarioEntity.class);
@@ -65,15 +60,48 @@ public class FuncionarioService {
 
     public FuncionarioDTO getById(Integer idFuncionario) throws RegraDeNegocioException {
         FuncionarioEntity entity = findById(idFuncionario);
-        return objectMapper.convertValue(entity, FuncionarioDTO.class);
+        FuncionarioDTO dto = objectMapper.convertValue(entity, FuncionarioDTO.class);
+        byte[] encoded = new byte[0];
+        try {
+            encoded = Base64Utils.encode(toPrimitive(buscarFotoPorFuncionario(idFuncionario).getData()));
+        } catch (RegraDeNegocioException e) {
+            log.info(dto.getNome() + " não possui foto.");
+        }
+        dto.setFotoFuncionario(new String(encoded));
+        return dto;
     }
 
     public List<FuncionarioDTO> list(Integer idFuncionario){
         List<FuncionarioEntity> entities = funcionarioRepository.findFuncionariosExeto(idFuncionario);
         return entities.stream()
-                .map(x -> objectMapper.convertValue(x, FuncionarioDTO.class))
+                .map(x -> {
+                   FuncionarioDTO dto = objectMapper.convertValue(x, FuncionarioDTO.class);
+
+                    byte[] encoded = new byte[0];
+                    try {
+                        encoded = Base64Utils.encode(toPrimitive(buscarFotoPorFuncionario(x.getIdFuncionario()).getData()));
+                    } catch (RegraDeNegocioException e) {
+                        log.info(x.getNome() + " não possui foto.");
+                    }
+
+                    dto.setFotoFuncionario(new String(encoded));
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 
+    public byte[] toPrimitive(Byte[] imagem) {
+        byte[] b2 = new byte[imagem.length];
+        for (int i = 0; i < imagem.length; i++)
+        {
+            b2[i] = imagem[i];
+        }
+        return b2;
+    }
+
+    private FotoPerfilEntity buscarFotoPorFuncionario(Integer idFuncionario) throws RegraDeNegocioException {
+       return fotoPerfilRepository.buscarFotoPorIdFuncionario(idFuncionario)
+                .orElseThrow(() -> new RegraDeNegocioException("Usuário não possui foto."));
+    }
 
 }
