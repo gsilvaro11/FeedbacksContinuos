@@ -43,8 +43,8 @@ public class FeedbackService {
                 .map(x -> {
                     FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
                     try {
-                        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(idFuncionario));
-                        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(x.getIdFuncionarioDestino()));
+                        dto.setFuncionarioOrigem(funcionarioService.getById(idFuncionario));
+                        dto.setFuncionarioDestino(funcionarioService.getById(x.getIdFuncionarioDestino()));
                         dto.setTags(x.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
@@ -61,8 +61,8 @@ public class FeedbackService {
                 .map(x -> {
                     FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
                     try {
-                        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(x.getFuncionarioEntity().getIdFuncionario()));
-                        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(idFuncionario));
+                        dto.setFuncionarioOrigem(funcionarioService.getById(x.getFuncionarioEntity().getIdFuncionario()));
+                        dto.setFuncionarioDestino(funcionarioService.getById(idFuncionario));
                         dto.setTags(x.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
@@ -79,8 +79,8 @@ public class FeedbackService {
                 .map(x -> {
                     FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
                     try {
-                        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(idFuncionario));
-                        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(x.getIdFuncionarioDestino()));
+                        dto.setFuncionarioOrigem(funcionarioService.getById(idFuncionario));
+                        dto.setFuncionarioDestino(funcionarioService.getById(x.getIdFuncionarioDestino()));
                         dto.setTags(x.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
@@ -97,8 +97,8 @@ public class FeedbackService {
                 .map(x -> {
                     FeedbacksDTO dto = objectMapper.convertValue(x , FeedbacksDTO.class);
                     try {
-                        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(x.getFuncionarioEntity().getIdFuncionario()));
-                        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(idFuncionario));
+                        dto.setFuncionarioOrigem(funcionarioService.getById(x.getFuncionarioEntity().getIdFuncionario()));
+                        dto.setFuncionarioDestino(funcionarioService.getById(idFuncionario));
                         dto.setTags(x.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
@@ -136,8 +136,8 @@ public class FeedbackService {
         FeedbackEntity feedbackSalvo = feedbackRepository.save(entity);
 
         FeedbacksDTO dto = objectMapper.convertValue(feedbackSalvo, FeedbacksDTO.class);
-        dto.setFuncionarioOrigem(funcionarioService.findByIdDTO(idFuncionario));
-        dto.setFuncionarioDestino(funcionarioService.findByIdDTO(feedbacksCreateDTO.getIdFuncionarioDestino()));
+        dto.setFuncionarioOrigem(funcionarioService.getById(idFuncionario));
+        dto.setFuncionarioDestino(funcionarioService.getById(feedbacksCreateDTO.getIdFuncionarioDestino()));
         dto.setTags(entity.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
         return dto;
     }
