@@ -9,12 +9,22 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.Base64Utils;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("/foto-perfil")
@@ -42,16 +52,39 @@ public class FotoPerfilController {
     }
 
     @GetMapping("/download-foto")
-    public ResponseEntity<Resource> downloadFoto() throws RegraDeNegocioException {
+    public HttpEntity getFile(HttpServletResponse response) throws RegraDeNegocioException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String principal = (String) authentication.getPrincipal();
         Integer idFuncionario = Integer.valueOf(principal);
 
-        return fotoPerfilService.downloadFoto(idFuncionario);
+        FotoPerfilEntity entity = fotoPerfilRepository.buscarFotoPorIdFuncionario(idFuncionario)
+                .orElseThrow(() -> new RegraDeNegocioException("Imagem não encontrada!"));
+
+        byte[] encoded = Base64Utils.encode(fotoPerfilService.toPrimitive(entity.getData()));
+
+        try (InputStream inputStream = new ByteArrayInputStream(encoded)) {
+            StreamUtils.copy(inputStream, response.getOutputStream());
+            response.setContentType(MediaType.ALL_VALUE);
+        } catch (IOException e) {
+            // handle
+        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/download-foto/{idFuncionario}")
-    public ResponseEntity<Resource> downloadFotoPorId(@PathVariable("idFuncionario")Integer idFuncionario) throws RegraDeNegocioException {
-        return fotoPerfilService.downloadFoto(idFuncionario);
+    public HttpEntity getFileForId(HttpServletResponse response, @PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException { ;
+
+        FotoPerfilEntity entity = fotoPerfilRepository.buscarFotoPorIdFuncionario(idFuncionario)
+                .orElseThrow(() -> new RegraDeNegocioException("Imagem não encontrada!"));
+
+        byte[] encoded = Base64Utils.encode(fotoPerfilService.toPrimitive(entity.getData()));
+
+        try (InputStream inputStream = new ByteArrayInputStream(encoded)) {
+            StreamUtils.copy(inputStream, response.getOutputStream());
+            response.setContentType(MediaType.ALL_VALUE);
+        } catch (IOException e) {
+            // handle
+        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
