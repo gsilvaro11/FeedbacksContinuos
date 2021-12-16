@@ -8,10 +8,7 @@ import com.dbc.feedbackscontinuos.service.FotoPerfilService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,16 +42,16 @@ public class FotoPerfilController {
     }
 
     @GetMapping("/download-foto")
-    public ResponseEntity<Resource> downloadFoto() {
+    public ResponseEntity<Resource> downloadFoto() throws RegraDeNegocioException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String principal = (String) authentication.getPrincipal();
         Integer idFuncionario = Integer.valueOf(principal);
 
-        FotoPerfilEntity entity = fotoPerfilRepository.buscarFotoPorIdFuncionario(idFuncionario);
+        return fotoPerfilService.downloadFoto(idFuncionario);
+    }
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(entity.getTipoFotoPerfil()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename= "+entity.getNomeFotoPerfil())
-                .body(new ByteArrayResource(fotoPerfilService.toPrimitive(entity.getData())));
+    @GetMapping("/download-foto/{idFuncionario}")
+    public ResponseEntity<Resource> downloadFotoPorId(@PathVariable("idFuncionario")Integer idFuncionario) throws RegraDeNegocioException {
+        return fotoPerfilService.downloadFoto(idFuncionario);
     }
 }

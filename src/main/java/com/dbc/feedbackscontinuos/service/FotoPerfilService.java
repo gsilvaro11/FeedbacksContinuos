@@ -4,13 +4,14 @@ import com.dbc.feedbackscontinuos.entity.FotoPerfilEntity;
 import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.repository.FotoPerfilRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -24,7 +25,7 @@ public class FotoPerfilService {
 
         if(fotoPerfilRepository.verificaSeFuncionarioPossuiFoto(idFuncionario) > 0){
             throw new RegraDeNegocioException("Usuário já possui foto cadastrada!");
-        };
+        }
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -42,6 +43,16 @@ public class FotoPerfilService {
         } catch (RegraDeNegocioException | IOException ex) {
             throw new RegraDeNegocioException("Não salvou o arquivo.");
         }
+    }
+
+    public ResponseEntity<Resource> downloadFoto(Integer id) throws RegraDeNegocioException {
+        FotoPerfilEntity entity = fotoPerfilRepository.buscarFotoPorIdFuncionario(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Usuário não possui foto."));
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(entity.getTipoFotoPerfil()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename= "+entity.getNomeFotoPerfil())
+                .body(new ByteArrayResource(toPrimitive(entity.getData())));
     }
 
 
