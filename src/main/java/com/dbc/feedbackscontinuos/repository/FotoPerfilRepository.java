@@ -14,5 +14,5 @@ public interface FotoPerfilRepository extends JpaRepository<FotoPerfilEntity, In
     Integer verificaSeFuncionarioPossuiFoto(Integer idFuncionario);
 
     @Query(value = "select * from foto_perfil fp where fp.id_funcionario = :idFuncionario", nativeQuery = true)
-    FotoPerfilEntity buscarFotoPorIdFuncionario(Integer idFuncionario);
+    Optional<FotoPerfilEntity> buscarFotoPorIdFuncionario(Integer idFuncionario);
 }
