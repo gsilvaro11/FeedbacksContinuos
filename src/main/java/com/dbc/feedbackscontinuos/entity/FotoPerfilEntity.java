@@ -15,9 +15,10 @@ import javax.persistence.*;
 @Entity(name = "fotoPerfil")
 public class FotoPerfilEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_foto_perfil")
-    private Integer idFotoPerfil;
+    @GeneratedValue
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_funcionario", referencedColumnName = "id_funcionario")
+    private FuncionarioEntity funcionario;
 
     @Column(name = "tipo_foto_perfil")
     private String tipoFotoPerfil;
@@ -28,8 +29,4 @@ public class FotoPerfilEntity {
     @Column(name = "data")
     private Byte[] data;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_funcionario", referencedColumnName = "id_funcionario")
-    private FuncionarioEntity funcionario;
 }
