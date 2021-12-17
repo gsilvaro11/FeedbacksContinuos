@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -26,13 +27,13 @@ public class FuncionarioService {
     private final ObjectMapper objectMapper;
     private final FotoPerfilRepository fotoPerfilRepository;
 
-    public FuncionarioDTO create(FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException{
+    public FuncionarioDTO create(FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException {
         FuncionarioEntity entity = objectMapper.convertValue(funcionarioCreateDTO, FuncionarioEntity.class);
         Optional<FuncionarioEntity> funcionario = funcionarioRepository.findByEmail(funcionarioCreateDTO.getEmail());
 
-        if(funcionario.isPresent()){
+        if (funcionario.isPresent()) {
             throw new RegraDeNegocioException("Email já cadastrado.");
-        }else if (!funcionarioCreateDTO.getEmail().contains("@dbccompany.com.br")){
+        } else if (!funcionarioCreateDTO.getEmail().contains("@dbccompany.com.br")) {
             throw new RegraDeNegocioException("Email precisa ter dominio: dbccompany!");
         }
 
@@ -71,11 +72,11 @@ public class FuncionarioService {
         return dto;
     }
 
-    public List<FuncionarioDTO> list(Integer idFuncionario){
+    public List<FuncionarioDTO> list(Integer idFuncionario) {
         List<FuncionarioEntity> entities = funcionarioRepository.findFuncionariosExeto(idFuncionario);
         return entities.stream()
                 .map(x -> {
-                   FuncionarioDTO dto = objectMapper.convertValue(x, FuncionarioDTO.class);
+                    FuncionarioDTO dto = objectMapper.convertValue(x, FuncionarioDTO.class);
 
                     byte[] encoded = new byte[0];
                     try {
@@ -92,16 +93,14 @@ public class FuncionarioService {
 
     public byte[] toPrimitive(Byte[] imagem) {
         byte[] b2 = new byte[imagem.length];
-        for (int i = 0; i < imagem.length; i++)
-        {
+        for (int i = 0; i < imagem.length; i++) {
             b2[i] = imagem[i];
         }
         return b2;
     }
 
     private FotoPerfilEntity buscarFotoPorFuncionario(Integer idFuncionario) throws RegraDeNegocioException {
-       return fotoPerfilRepository.buscarFotoPorIdFuncionario(idFuncionario)
+        return fotoPerfilRepository.buscarFotoPorIdFuncionario(idFuncionario)
                 .orElseThrow(() -> new RegraDeNegocioException("Usuário não possui foto."));
     }
-
 }

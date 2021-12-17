@@ -19,7 +19,7 @@ public class AuthenticationService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<FuncionarioEntity> funcionario = funcionarioService.findByEmail(email);
 
-        if(funcionario.isPresent()){
+        if (funcionario.isPresent()) {
             return (UserDetails) funcionario.get();
         }
 

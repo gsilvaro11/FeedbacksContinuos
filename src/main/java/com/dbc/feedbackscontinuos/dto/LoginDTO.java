@@ -3,7 +3,6 @@ package com.dbc.feedbackscontinuos.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-
 @Data
 public class LoginDTO {
     @ApiModelProperty(value = "E-mail cadastrado do usuário.")

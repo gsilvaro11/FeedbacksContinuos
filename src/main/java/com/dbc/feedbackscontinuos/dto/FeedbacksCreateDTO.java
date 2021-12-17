@@ -1,9 +1,7 @@
 package com.dbc.feedbackscontinuos.dto;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,8 +9,6 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class FeedbacksCreateDTO {
     @NotNull
     @ApiModelProperty(value = "Id do usuário destino que receberá o feedback")
@@ -27,5 +23,4 @@ public class FeedbacksCreateDTO {
     @NotNull
     @ApiModelProperty(value = "True para feedback anônimo e false para não-anônimo")
     private Boolean anonimo;
-
 }

@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,7 +19,7 @@ public class TagsService {
     private final ObjectMapper objectMapper;
     private final FeedbackRepository feedbackRepository;
 
-    public List<TagsDTO> list(){
+    public List<TagsDTO> list() {
         List<TagsEntity> listaEntity = repository.findByStatus();
         return listaEntity.stream()
                 .map(x -> objectMapper.convertValue(x, TagsDTO.class))
@@ -28,12 +27,14 @@ public class TagsService {
 
     }
 
-    public List<TagsDTO> listByName(String tag){
+
+    public List<TagsDTO> listByName(String tag) {
         List<TagsEntity> listaEntity = repository.findTagByName(tag);
         return listaEntity.stream()
                 .map(x -> objectMapper.convertValue(x, TagsDTO.class))
                 .collect(Collectors.toList());
     }
+
 
     public TagsEntity getById(Integer id) throws RegraDeNegocioException {
         return repository.findById(id)

@@ -1,13 +1,11 @@
 package com.dbc.feedbackscontinuos.controller;
 
 import com.dbc.feedbackscontinuos.dto.TagsDTO;
-import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.service.TagsService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +24,7 @@ public class TagsController {
             @ApiResponse(code = 500, message = "Problema interno no sistema."),
     })
     @GetMapping("/lista-tags")
-    public List<TagsDTO> list(){
+    public List<TagsDTO> list() {
         return tagsService.list();
     }
 
@@ -37,9 +35,8 @@ public class TagsController {
             @ApiResponse(code = 400, message = "Há dados inseridos incorretamente ou pessoa não encontrada."),
             @ApiResponse(code = 500, message = "Problema interno no sistema."),
     })
-    @GetMapping("/tag")
+    @GetMapping("/buscar-tags")
     public List<TagsDTO> listPorNome(@RequestParam String tag) {
         return tagsService.listByName(tag.toUpperCase(Locale.ROOT));
     }
-
 }
