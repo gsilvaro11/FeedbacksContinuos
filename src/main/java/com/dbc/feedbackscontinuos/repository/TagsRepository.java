@@ -15,6 +15,6 @@ public interface TagsRepository extends JpaRepository<TagsEntity, Integer> {
     @Query(value = "select * from tags t where t.status = true", nativeQuery = true)
     List<TagsEntity> findByStatus();
 
-    @Query(value = "SELECT * FROM tags t WHERE upper(t.nome_tag) LIKE %?1%", nativeQuery = true)
+    @Query(value = "SELECT * FROM tags t WHERE t.nome_tag ilike %?1%", nativeQuery = true)
     List<TagsEntity> findTagByName(String tag);
 }
