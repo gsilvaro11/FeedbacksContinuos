@@ -4,14 +4,10 @@ import com.dbc.feedbackscontinuos.entity.FotoPerfilEntity;
 import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
 import com.dbc.feedbackscontinuos.repository.FotoPerfilRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -23,12 +19,12 @@ public class FotoPerfilService {
 
     public FotoPerfilEntity storeFile(MultipartFile file, Integer idFuncionario) throws RegraDeNegocioException {
 
-        if(fotoPerfilRepository.verificaSeFuncionarioPossuiFoto(idFuncionario) > 0){
+        if (fotoPerfilRepository.verificaSeFuncionarioPossuiFoto(idFuncionario) > 0) {
             throw new RegraDeNegocioException("Usuário já possui foto cadastrada!");
         }
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
-            if(fileName.contains("..")) {
+            if (fileName.contains("..")) {
                 throw new RegraDeNegocioException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 
@@ -43,35 +39,10 @@ public class FotoPerfilService {
         }
     }
 
-    public ResponseEntity<Resource> downloadFoto(Integer id) throws RegraDeNegocioException {
-        FotoPerfilEntity entity = fotoPerfilRepository.buscarFotoPorIdFuncionario(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Usuário não possui foto."));
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(entity.getTipoFotoPerfil()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename= "+entity.getNomeFotoPerfil())
-                .body(new ByteArrayResource(toPrimitive(entity.getData())));
-    }
 
     private Byte[] toObjects(byte[] bytesPrim) {
         Byte[] bytes = new Byte[bytesPrim.length];
         Arrays.setAll(bytes, n -> bytesPrim[n]);
         return bytes;
     }
-
-    public FotoPerfilEntity getById(Integer id) throws RegraDeNegocioException {
-        return fotoPerfilRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Imagem não encontrada."));
-    }
-
-    public byte[] toPrimitive(Byte[] imagem) {
-        byte[] b2 = new byte[imagem.length];
-        for (int i = 0; i < imagem.length; i++)
-        {
-            b2[i] = imagem[i];
-        }
-        return b2;
-    }
-
-
 }

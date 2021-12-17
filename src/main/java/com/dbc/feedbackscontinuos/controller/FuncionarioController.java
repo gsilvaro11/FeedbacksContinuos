@@ -12,15 +12,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -88,8 +85,8 @@ public class FuncionarioController {
             @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
             @ApiResponse(code = 500, message = "Problema interno no sistema."),
     })
-    @GetMapping("/funcionarios")
-    public List<FuncionarioDTO> list(){
+    @GetMapping
+    public List<FuncionarioDTO> list() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String principal = (String) authentication.getPrincipal();
         Integer idFuncionario = Integer.valueOf(principal);
@@ -105,7 +102,6 @@ public class FuncionarioController {
     })
     @GetMapping("/{idFuncionario}")
     public FuncionarioDTO getById(HttpServletResponse response, @PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
-       return funcionarioService.getById(idFuncionario);
+        return funcionarioService.getById(idFuncionario);
     }
-
 }

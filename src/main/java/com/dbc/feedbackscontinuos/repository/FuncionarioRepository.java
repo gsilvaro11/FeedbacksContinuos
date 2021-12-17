@@ -1,6 +1,5 @@
 package com.dbc.feedbackscontinuos.repository;
 
-import com.dbc.feedbackscontinuos.entity.FeedbackEntity;
 import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +14,4 @@ public interface FuncionarioRepository extends JpaRepository<FuncionarioEntity, 
 
     @Query(value = "select * from Funcionario f where f.id_funcionario != :id order by f.nome", nativeQuery = true)
     List<FuncionarioEntity> findFuncionariosExeto(Integer id);
-
 }

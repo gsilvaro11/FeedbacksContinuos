@@ -59,30 +59,6 @@ public class FeedbackController {
     }
 
 
-    @ApiOperation(value = "Lista todos os feedbacks enviados marcados como visíveis a partir do ID informado na URL.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
-            @ApiResponse(code = 400, message = "Há dados inseridos incorretamente ou pessoa não encontrada."),
-            @ApiResponse(code = 500, message = "Problema interno no sistema."),
-    })
-    @GetMapping("/{idFuncionario}/enviados-vis")
-    public List<FeedbacksDTO> listarEnviadosVisiveis(@PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
-        return feedbackService.listarEnviadosVisivel(idFuncionario);
-    }
-
-
-    @ApiOperation(value = "Lista todos os feedbacks recebidos marcados como visíveis a partir do ID informado na URL.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
-            @ApiResponse(code = 400, message = "Há dados inseridos incorretamente ou pessoa não encontrada."),
-            @ApiResponse(code = 500, message = "Problema interno no sistema."),
-    })
-    @GetMapping("/{idFuncionario}/recebidos-vis")
-    public List<FeedbacksDTO> listarRecebidosVisiveis(@PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
-        return feedbackService.listarRecebidosVisivel(idFuncionario);
-    }
-
-
     @ApiOperation(value = "Cria um novo feedback tendo como origem o usuário logado no momento.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
@@ -113,5 +89,4 @@ public class FeedbackController {
         Integer idFuncionario = Integer.valueOf(principal);
         return feedbackService.updateVisivel(feedbackId, idFuncionario);
     }
-
 }

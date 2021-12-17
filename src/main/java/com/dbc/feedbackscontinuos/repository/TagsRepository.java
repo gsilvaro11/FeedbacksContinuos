@@ -1,6 +1,5 @@
 package com.dbc.feedbackscontinuos.repository;
 
-import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
 import com.dbc.feedbackscontinuos.entity.TagsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,5 +17,4 @@ public interface TagsRepository extends JpaRepository<TagsEntity, Integer> {
 
     @Query(value = "SELECT * FROM tags t WHERE upper(t.nome_tag) LIKE %?1%", nativeQuery = true)
     List<TagsEntity> findTagByName(String tag);
-
 }

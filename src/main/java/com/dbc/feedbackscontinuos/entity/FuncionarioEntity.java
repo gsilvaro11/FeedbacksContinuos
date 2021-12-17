@@ -1,7 +1,6 @@
 package com.dbc.feedbackscontinuos.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javassist.bytecode.ByteArray;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
