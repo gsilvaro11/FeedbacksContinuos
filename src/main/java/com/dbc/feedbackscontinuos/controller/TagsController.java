@@ -37,6 +37,6 @@ public class TagsController {
     })
     @GetMapping("/buscar-tags")
     public List<TagsDTO> listPorNome(@RequestParam String tag) {
-        return tagsService.listByName(tag.toUpperCase(Locale.ROOT));
+        return tagsService.listByName(tag);
     }
 }
