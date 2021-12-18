@@ -29,7 +29,7 @@ public class FeedbackService {
 
 
 
-    public FeedbackEntity getById(Integer feedbackId) throws RegraDeNegocioException {
+    public FeedbackEntity findById(Integer feedbackId) throws RegraDeNegocioException {
         return feedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> new RegraDeNegocioException("Feedback não encontrado."));
     }
@@ -109,7 +109,7 @@ public class FeedbackService {
 
 
     public FeedbacksDTO updateVisivel(Integer idFeedback, Integer idFuncionario) throws RegraDeNegocioException {
-        FeedbackEntity entity = getById(idFeedback);
+        FeedbackEntity entity = findById(idFeedback);
         if (idFuncionario.equals(entity.getIdFuncionarioDestino())){
             entity.setVisivel(!entity.getVisivel());
         } else {
