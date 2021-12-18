@@ -83,7 +83,7 @@ public class FeedbackService {
         Set<TagsEntity> listaTags = feedbacksCreateDTO.getListaTags().stream()
                 .map(tagsCreateDTO -> {
                     try {
-                        return tagsService.getById(tagsCreateDTO.getIdTag());
+                        return tagsService.findById(tagsCreateDTO.getIdTag());
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
                     }
