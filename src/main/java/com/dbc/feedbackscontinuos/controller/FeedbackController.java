@@ -49,7 +49,7 @@ public class FeedbackController {
             @ApiResponse(code = 500, message = "Problema interno no sistema."),
     })
     @GetMapping("/recebidos")
-    public List<FeedbacksDTO> listarRecebids() throws RegraDeNegocioException {
+    public List<FeedbacksDTO> listarRecebidos() throws RegraDeNegocioException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String principal = (String) authentication.getPrincipal();
 
