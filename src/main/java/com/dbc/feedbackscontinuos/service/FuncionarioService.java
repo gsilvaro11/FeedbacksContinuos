@@ -1,10 +1,10 @@
 package com.dbc.feedbackscontinuos.service;
 
-import com.dbc.feedbackscontinuos.dto.FuncionarioCreateDTO;
-import com.dbc.feedbackscontinuos.dto.FuncionarioDTO;
+import com.dbc.feedbackscontinuos.dto.*;
 import com.dbc.feedbackscontinuos.entity.FotoPerfilEntity;
 import com.dbc.feedbackscontinuos.entity.FuncionarioEntity;
 import com.dbc.feedbackscontinuos.exceptions.RegraDeNegocioException;
+import com.dbc.feedbackscontinuos.repository.FeedbackRepository;
 import com.dbc.feedbackscontinuos.repository.FotoPerfilRepository;
 import com.dbc.feedbackscontinuos.repository.FuncionarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +26,7 @@ public class FuncionarioService {
     private final FuncionarioRepository funcionarioRepository;
     private final ObjectMapper objectMapper;
     private final FotoPerfilRepository fotoPerfilRepository;
+    private final FeedbackRepository feedbackRepository;
 
     public FuncionarioDTO create(FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException {
         FuncionarioEntity entity = objectMapper.convertValue(funcionarioCreateDTO, FuncionarioEntity.class);
@@ -89,6 +90,32 @@ public class FuncionarioService {
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public FuncionarioComFeedbacksDTO getByIdComRecebidos(Integer idFuncionario) throws RegraDeNegocioException {
+        FuncionarioEntity entity = findById(idFuncionario);
+        FuncionarioComFeedbacksDTO dto = objectMapper.convertValue(entity, FuncionarioComFeedbacksDTO.class);
+        byte[] encoded = new byte[0];
+        try {
+            encoded = Base64Utils.encode(toPrimitive(buscarFotoPorFuncionario(idFuncionario).getData()));
+        } catch (RegraDeNegocioException e) {
+            log.info(dto.getNome() + " não possui foto.");
+        }
+        dto.setFotoFuncionario(new String(encoded));
+        List<FeedbacksDTO> feedbacksDTOS = feedbackRepository.findByIdFuncionarioDestinoVisivel(idFuncionario).stream()
+                .map(x -> {
+                    FeedbacksDTO feedDTO = objectMapper.convertValue(x, FeedbacksDTO.class);
+                    try {
+                        feedDTO.setFuncionarioOrigem(getById(x.getFuncionarioEntity().getIdFuncionario()));
+                        feedDTO.setFuncionarioDestino(getById(idFuncionario));
+                        feedDTO.setTags(x.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
+                    } catch (RegraDeNegocioException e) {
+                        e.printStackTrace();
+                    }
+                    return feedDTO;
+                }).collect(Collectors.toList());
+        dto.setRecebidos(feedbacksDTOS);
+        return dto;
     }
 
     public byte[] toPrimitive(Byte[] imagem) {

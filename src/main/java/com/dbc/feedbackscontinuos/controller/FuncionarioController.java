@@ -1,5 +1,6 @@
 package com.dbc.feedbackscontinuos.controller;
 
+import com.dbc.feedbackscontinuos.dto.FuncionarioComFeedbacksDTO;
 import com.dbc.feedbackscontinuos.dto.FuncionarioCreateDTO;
 import com.dbc.feedbackscontinuos.dto.FuncionarioDTO;
 import com.dbc.feedbackscontinuos.dto.LoginDTO;
@@ -101,7 +102,7 @@ public class FuncionarioController {
             @ApiResponse(code = 500, message = "Problema interno no sistema."),
     })
     @GetMapping("/{idFuncionario}")
-    public FuncionarioDTO getById(HttpServletResponse response, @PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
-        return funcionarioService.getById(idFuncionario);
+    public FuncionarioComFeedbacksDTO getByIdComRecebidos(@PathVariable("idFuncionario") Integer idFuncionario) throws RegraDeNegocioException {
+        return funcionarioService.getByIdComRecebidos(idFuncionario);
     }
 }

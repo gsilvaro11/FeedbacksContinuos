@@ -50,5 +50,4 @@ public class FeedbackEntity {
     )
     private Set<TagsEntity> listaTags;
 
-
 }
