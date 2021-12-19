@@ -36,7 +36,7 @@ public class TagsService {
     }
 
 
-    public TagsEntity getById(Integer id) throws RegraDeNegocioException {
+    public TagsEntity findById(Integer id) throws RegraDeNegocioException {
         return repository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Tag não encontrada."));
     }
