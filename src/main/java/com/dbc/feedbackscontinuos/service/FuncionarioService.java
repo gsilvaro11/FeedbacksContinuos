@@ -102,12 +102,11 @@ public class FuncionarioService {
             log.info(dto.getNome() + " não possui foto.");
         }
         dto.setFotoFuncionario(new String(encoded));
-        List<FeedbacksDTO> feedbacksDTOS = feedbackRepository.findByIdFuncionarioDestinoVisivel(idFuncionario).stream()
+        List<FeedbacksOrigemDTO> feedbacksDTOS = feedbackRepository.findByIdFuncionarioDestinoVisivel(idFuncionario).stream()
                 .map(x -> {
-                    FeedbacksDTO feedDTO = objectMapper.convertValue(x, FeedbacksDTO.class);
+                    FeedbacksOrigemDTO feedDTO = objectMapper.convertValue(x, FeedbacksOrigemDTO.class);
                     try {
                         feedDTO.setFuncionarioOrigem(getById(x.getFuncionarioEntity().getIdFuncionario()));
-                        feedDTO.setFuncionarioDestino(getById(idFuncionario));
                         feedDTO.setTags(x.getListaTags().stream().map(tagsEntity -> objectMapper.convertValue(tagsEntity, TagsDTO.class)).collect(Collectors.toList()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();

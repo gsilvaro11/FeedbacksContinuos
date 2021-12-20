@@ -12,5 +12,5 @@ public class FuncionarioComFeedbacksDTO {
     private String nome;
     private String email;
     private String fotoFuncionario;
-    private List<FeedbacksDTO> recebidos;
+    private List<FeedbacksOrigemDTO> recebidos;
 }
