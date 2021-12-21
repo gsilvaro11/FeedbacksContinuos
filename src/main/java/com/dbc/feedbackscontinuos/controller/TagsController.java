@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/tags")
@@ -28,15 +27,4 @@ public class TagsController {
         return tagsService.list();
     }
 
-
-    @ApiOperation(value = "Faz uma nas tags cadastradas a partir do nome.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Deu certo! O comando funcionou."),
-            @ApiResponse(code = 400, message = "Há dados inseridos incorretamente ou pessoa não encontrada."),
-            @ApiResponse(code = 500, message = "Problema interno no sistema."),
-    })
-    @GetMapping("/buscar-tags")
-    public List<TagsDTO> listPorNome(@RequestParam String tag) {
-        return tagsService.listByName(tag);
-    }
 }

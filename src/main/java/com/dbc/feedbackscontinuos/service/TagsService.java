@@ -28,14 +28,6 @@ public class TagsService {
     }
 
 
-    public List<TagsDTO> listByName(String tag) {
-        List<TagsEntity> listaEntity = repository.findTagByName(tag);
-        return listaEntity.stream()
-                .map(x -> objectMapper.convertValue(x, TagsDTO.class))
-                .collect(Collectors.toList());
-    }
-
-
     public TagsEntity findById(Integer id) throws RegraDeNegocioException {
         return repository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Tag não encontrada."));
