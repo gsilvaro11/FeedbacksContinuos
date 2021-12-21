@@ -117,7 +117,7 @@ public class FuncionarioService {
         return dto;
     }
 
-    public byte[] toPrimitive(Byte[] imagem) {
+    private byte[] toPrimitive(Byte[] imagem) {
         byte[] b2 = new byte[imagem.length];
         for (int i = 0; i < imagem.length; i++) {
             b2[i] = imagem[i];
