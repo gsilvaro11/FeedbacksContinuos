@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface TagsRepository extends JpaRepository<TagsEntity, Integer> {
     Optional<TagsEntity> findByNomeTag(String nome);
 
-    @Query(value = "select * from tags t where t.status = true", nativeQuery = true)
+    @Query(value = "select * from tags t where t.status = true order by t.nome_tag", nativeQuery = true)
     List<TagsEntity> findByStatus();
 }
